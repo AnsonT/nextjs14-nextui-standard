@@ -17,6 +17,10 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.ignorePath": ".gitignore"
+  "prettier.ignorePath": ".gitignore",
+  "cSpell.words": [
+    "clsx",
+    "nextui"
+  ]
 
 }
