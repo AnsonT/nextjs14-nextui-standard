@@ -20,7 +20,8 @@
   "prettier.ignorePath": ".gitignore",
   "cSpell.words": [
     "clsx",
-    "nextui"
+    "nextui",
+    "signin"
   ]
 
 }
