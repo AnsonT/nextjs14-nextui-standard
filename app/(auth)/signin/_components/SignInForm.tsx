@@ -10,12 +10,11 @@ import {
   Link,
 } from '@nextui-org/react'
 import { FC } from 'react'
-import { useForm, useFormState } from 'react-hook-form'
-import { SignInFormValues } from './types'
+import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-
+import { SignInData, serverSignIn } from '@/lib/actions/auth'
 interface SignInFormProps {
-  onSubmit?: (data: SignInFormValues) => Promise<boolean> | boolean
+  onSubmit?: (data: SignInData) => Promise<boolean> | boolean
 }
 
 export const SignInForm: FC<SignInFormProps> = ({ onSubmit }) => {
@@ -33,16 +32,16 @@ export const SignInForm: FC<SignInFormProps> = ({ onSubmit }) => {
       isSubmitting,
       isValid,
     },
-  } = useForm<SignInFormValues>({
+  } = useForm<SignInData>({
     defaultValues: {
       email: '',
       password: '',
       rememberMe: false,
     },
   })
-  const submitHandler = async (data: SignInFormValues) => {
+  const submitHandler = async (data: SignInData) => {
     console.log(data)
-    const ok = await onSubmit?.(data)
+    const ok = onSubmit ? await onSubmit(data) : await serverSignIn(data)
     if (ok) {
       router.replace('/')
     } else {

@@ -6,6 +6,7 @@ import { Providers } from './providers'
 import { Navbar } from '@/components/navbar'
 import { Link } from '@nextui-org/link'
 import clsx from 'clsx'
+import { serverGetUser } from '@/lib/actions/auth'
 
 export const metadata: Metadata = {
   title: {
@@ -27,11 +28,12 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const currentUser = await serverGetUser()
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -41,9 +43,9 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
+        <Providers themeProps={{ attribute: 'class', defaultTheme: 'light' }}>
           <div className="relative flex flex-col h-screen">
-            <Navbar />
+            <Navbar currentUser={currentUser} />
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
             </main>

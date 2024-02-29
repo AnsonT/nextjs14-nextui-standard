@@ -10,11 +10,10 @@ import {
 } from '@nextui-org/react'
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
-import { SignUpFormValues } from './types'
-import { useRouter } from 'next/router'
-
+import { useRouter } from 'next/navigation'
+import { SignUpData, serverSignUp } from '@/lib/actions/auth'
 interface SignUpFormProps {
-  onSubmit?: (data: SignUpFormValues) => Promise<boolean> | boolean
+  onSubmit?: (data: SignUpData) => Promise<boolean> | boolean
 }
 
 export const SignUpForm: FC<SignUpFormProps> = ({ onSubmit }) => {
@@ -32,16 +31,16 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onSubmit }) => {
       isSubmitting,
       isValid,
     },
-  } = useForm<SignUpFormValues>({
+  } = useForm<SignUpData>({
     defaultValues: {
       displayName: '',
       email: '',
       password: '',
     },
   })
-  const submitHandler = async (data: SignUpFormValues) => {
+  const submitHandler = async (data: SignUpData) => {
     console.log(data)
-    const ok = await onSubmit?.(data)
+    const ok = onSubmit ? await onSubmit(data) : await serverSignUp(data)
     if (ok) {
       router.replace('/')
     } else {
